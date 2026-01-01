@@ -60,16 +60,18 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         
-        // 1. Angular ka URL allow karo
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        // ✅ इन दोनों URLs को अनुमति दें (Local भी और Vercel भी)
+        configuration.setAllowedOrigins(Arrays.asList(
+            "http://localhost:4200", 
+            "https://ecommerce-frontend-nine-mocha.vercel.app"
+        ));
         
-        // 2. Methods allow karo
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
         
-        // 3. Headers allow karo
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With"));
+        // ✅ JWT Token के लिए यह ज़रूरी है
+        configuration.setExposedHeaders(Arrays.asList("Authorization"));
         
-        // 4. Credentials (Cookies/Token) allow karo
         configuration.setAllowCredentials(true);
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
