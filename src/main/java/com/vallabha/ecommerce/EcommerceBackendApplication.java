@@ -14,9 +14,14 @@ public class EcommerceBackendApplication {
 	    return new WebMvcConfigurer() {
 	        @Override
 	        public void addCorsMappings(CorsRegistry registry) {
-	            registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
+	            registry.addMapping("/**")
+	                    .allowedOrigins("*") // यह सभी वेबसाइट्स को अनुमति देगा
+	                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+	                    .allowedHeaders("*")
+	                    .exposedHeaders("Authorization");
 	        }
 	    };
+	
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(EcommerceBackendApplication.class, args);
