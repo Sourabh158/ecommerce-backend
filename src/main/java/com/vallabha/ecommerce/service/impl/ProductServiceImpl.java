@@ -39,22 +39,19 @@ public class ProductServiceImpl implements ProductService {
 
         product.setCategory(category);
 
-        // ✅ Image path ko clean rakhein
+        // ✅ पुरानी 'images/' वाली लॉजिक हटा दी गई है ताकि Cloudinary URL सुरक्षित रहे
         if (product.getImage() == null || product.getImage().isEmpty()) {
             product.setImage("default.png");
-        } else if (!product.getImage().startsWith("images/")) {
-            // Agar user sirf filename dale, to 'images/' prefix khud jod dein (Optional logic)
-            // product.setImage("images/" + product.getImage()); 
         }
+        // अब कोई 'else if' नहीं चाहिए जो 'images/' जोड़े
 
-        double price = product.getPrice();
-        double discount = product.getDiscount();
+        double price = product.getPrice() != null ? product.getPrice() : 0.0;
+        double discount = product.getDiscount() != null ? product.getDiscount() : 0.0;
         double specialPrice = price - ((discount * 0.01) * price);
         product.setSpecialPrice(specialPrice);
 
         return productRepository.save(product);
     }
-
     @Override
     public List<Product> getAllProducts() {
         return productRepository.findAll();

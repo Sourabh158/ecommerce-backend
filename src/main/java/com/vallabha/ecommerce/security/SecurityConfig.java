@@ -62,8 +62,7 @@ public class SecurityConfig {
         
         // ✅ इन दोनों URLs को अनुमति दें (Local भी और Vercel भी)
         configuration.setAllowedOrigins(Arrays.asList(
-            "http://localhost:4200", 
-            "https://ecommerce-frontend-nine-mocha.vercel.app"
+            "*"
         ));
         
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
@@ -72,7 +71,7 @@ public class SecurityConfig {
         // ✅ JWT Token के लिए यह ज़रूरी है
         configuration.setExposedHeaders(Arrays.asList("Authorization"));
         
-        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(false);
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
