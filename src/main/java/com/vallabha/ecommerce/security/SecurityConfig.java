@@ -56,28 +56,27 @@ public class SecurityConfig {
     }
 
     // ✅ NEW: Ye function batayega ki "Kaun allowed hai"
+ // SecurityConfig.java के अंदर CORS सेटिंग ढूंढें
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         
-        // ✅ इन दोनों URLs को अनुमति दें (Local भी और Vercel भी)
+        // ✅ '*' की जगह अपना असली Vercel और Localhost URL लिखें
         configuration.setAllowedOrigins(Arrays.asList(
-            "*"
+            "https://ecommerce-frontend-nine-mocha.vercel.app", 
+            "http://localhost:4200"
         ));
         
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         
-        // ✅ JWT Token के लिए यह ज़रूरी है
-        configuration.setExposedHeaders(Arrays.asList("Authorization"));
-        
-        configuration.setAllowCredentials(false);
+        // ❗ क्योंकि यह TRUE है, इसलिए ऊपर '*' नहीं चल सकता
+        configuration.setAllowCredentials(true); 
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
  // SecurityConfig.java के filterChain मेथड को इससे बदलें
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
