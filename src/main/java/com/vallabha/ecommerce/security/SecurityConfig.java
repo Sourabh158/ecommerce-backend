@@ -19,9 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -55,24 +53,19 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // ✅ CORS Configuration: यहाँ '*' का इस्तेमाल पूरी तरह हटा दिया गया है
+    // ✅ FIXED CORS logic: No more "*" wildcards
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         
-        // 1. केवल इन वेबसाइट्स को अनुमति दें (Wildcard '*' वर्जित है जब Credentials true हो)
+        // साफ़ तौर पर Vercel और Localhost को अनुमति दें
         configuration.setAllowedOrigins(Arrays.asList(
             "https://ecommerce-frontend-nine-mocha.vercel.app", 
             "http://localhost:4200"
         ));
         
-        // 2. सभी ज़रूरी HTTP Methods को अनुमति दें
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        
-        // 3. ज़रूरी Headers को अनुमति दें (Authorization बहुत ज़रूरी है)
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept", "X-Requested-With"));
-        
-        // 4. ब्राउज़र को टोकन भेजने की अनुमति दें
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
         configuration.setAllowCredentials(true); 
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -83,7 +76,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
-            // ✅ CORS को हमारी ऊपर वाली सेटिंग्स के साथ जोड़ें
             .cors(cors -> cors.configurationSource(corsConfigurationSource())) 
             .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
