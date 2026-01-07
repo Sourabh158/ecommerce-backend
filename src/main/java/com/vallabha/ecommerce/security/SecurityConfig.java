@@ -58,14 +58,15 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         
-        // साफ़ तौर पर Vercel और Localhost को अनुमति दें
-        configuration.setAllowedOrigins(Arrays.asList(
-            "https://ecommerce-frontend-nine-mocha.vercel.app", 
+        // ✅ दोनों डोमेन को अनुमति दें ताकि ट्रांजिशन स्मूथ रहे
+        configuration.setAllowedOriginPatterns(Arrays.asList(
+            "https://vallabha-ecommerce.vercel.app", 
+            "https://ecommerce-frontend-nine-mocha.vercel.app",
             "http://localhost:4200"
         ));
         
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept", "X-Requested-With"));
         configuration.setAllowCredentials(true); 
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
