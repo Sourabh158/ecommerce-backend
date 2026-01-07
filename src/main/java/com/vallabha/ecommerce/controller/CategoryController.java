@@ -11,7 +11,6 @@ import java.util.List;
 //CategoryController.java
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api") // Base path को सिर्फ /api रखें
 public class CategoryController {
 
