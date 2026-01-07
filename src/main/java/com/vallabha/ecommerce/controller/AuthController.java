@@ -37,7 +37,6 @@ import com.vallabha.ecommerce.security.jwt.JwtUtils;
 import com.vallabha.ecommerce.security.services.UserDetailsImpl;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/auth")
 public class AuthController {
 
